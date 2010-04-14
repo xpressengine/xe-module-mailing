@@ -1,0 +1,17 @@
+<query id="getTargetAddresses" action="select">
+    <tables>
+        <table name="mailing_members" />
+        <table name="member" type="left join">
+            <conditions>
+                <condition operation="equal" column="mailing_members.member_srl" default="member.member_srl" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="mailing_members.*" />
+        <column name="member.email_address" alias="member_email_address" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

@@ -1,0 +1,20 @@
+<query id="getModuleLatestCount" action="select">
+    <tables>
+        <table name="documents" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="modules.site_srl" alias="site_srl" />
+        <column name="modules.module_srl" alias="module_srl" />
+        <column name="max(documents.regdate)" alias="regdate" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="documents.module_srl" var="module_srls" notnull="notnull" />
+        <condition operation="equal" column="modules.module_srl" default="documents.module_srl" notnull="notnull" pipe="and" />
+    </conditions>
+    <groups>
+        <group column="modules.site_srl" />
+        <group column="modules.module_srl" />
+    </groups>
+</query>

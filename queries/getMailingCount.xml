@@ -1,0 +1,11 @@
+<query id="getMailingCount" action="select">
+    <tables>
+        <table name="mailing_members" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+    </conditions>
+</query>

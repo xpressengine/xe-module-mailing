@@ -1,0 +1,15 @@
+<query id="getHomepageTitles" action="select">
+    <tables>
+        <table name="sites" />
+        <table name="homepages" />
+    </tables>
+    <columns>
+        <column name="sites.site_srl" alias="site_srl" />
+        <column name="sites.domain" alias="domain" />
+        <column name="homepages.title" alias="title" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="sites.site_srl" var="site_srls" notnull="notnull" />
+        <condition operation="equal" column="sites.site_srl" default="homepages.site_srl" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

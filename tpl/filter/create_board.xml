@@ -1,0 +1,8 @@
+<filter name="create_board" module="mailing" act="procMailingCreateBoard" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="board_id" required="true" minlength="3" maxlength="20" filter="alpha_number" />
+        <node target="browser_title" required="true" minlength="1" maxlength="250" />
+    </form>
+    <parameter />
+    <response />
+</filter>

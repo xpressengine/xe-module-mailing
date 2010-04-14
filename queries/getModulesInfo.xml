@@ -1,0 +1,16 @@
+<query id="getModulesInfo" action="select">
+    <tables>
+        <table name="modules" />
+        <table name="sites" />
+    </tables>
+    <columns>
+        <column name="sites.domain" alias="domain" />
+        <column name="modules.module_srl" alias="module_srl" />
+        <column name="modules.mid" alias="mid" />
+        <column name="modules.browser_title" alias="browser_title" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="modules.module_srl" var="module_srls" notnull="notnull" />
+        <condition operation="equal" column="modules.site_srl" default="sites.site_srl" notnull="notnull" pipe="and"/>
+    </conditions>
+</query>

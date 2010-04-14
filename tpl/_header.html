@@ -1,0 +1,28 @@
+<!--%import("js/mailing.js")-->
+
+<h3 class="xeAdmin">{$lang->mailing_list} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="infoText">{nl2br($lang->about_mailing_list)}</div>
+
+<!--@if($module_info)-->
+<div class="header4">
+    <h4 class="xeAdmin">
+        {$module_info->mid}
+        <span class="vr">|</span> 
+        <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a>
+    </h4>
+
+    <ul class="localNavigation">
+        <!--@if($module=='admin')-->
+        <li <!--@if($act=='dispMailingAdminIndex')-->class="on"<!--@end-->><a href="{getUrl('act','dispMailingAdminIndex','module_srl','')}">{$lang->cmd_list}</a></li>
+        <!--@else-->
+        <li><a href="{getUrl('act','')}">{$lang->cmd_back}</a></li>
+        <!--@end-->
+
+        <li <!--@if($act=='dispMailingAdminInsert')-->class="on"<!--@end-->><a href="{getUrl('act','dispMailingAdminInsert')}">{$lang->cmd_setup}</a></li>
+        <li <!--@if($act=='dispMailingAdminGrant')-->class="on"<!--@end-->><a href="{getUrl('act','dispMailingAdminGrant')}">{$lang->cmd_manage_grant}</a></li>
+        <li <!--@if($act=='dispMailingAdminSkin')-->class="on"<!--@end-->><a href="{getUrl('act','dispMailingAdminSkin')}">{$lang->cmd_manage_skin}</a></li>
+    </ul>
+</div>
+<!--@end-->
+

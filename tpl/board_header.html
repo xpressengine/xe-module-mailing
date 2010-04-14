@@ -1,0 +1,18 @@
+<!--%import("./css/mailing_header.css")-->
+<!--%import("./js/mailing_header.js")-->
+
+<div class="mailingInfo">
+<!--@if(!$is_logged)-->
+    <p>{sprintf($lang->mailing_info_not_logged, $module_info->browser_title)}</p>
+
+<!--@else-->
+
+    <p>
+        {sprintf($lang->mailing_info, $module_info->browser_title)} : 
+        <a href="mailto:{$mailing_address}" onmouseover="jQuery('.aboutMailingAddress').addClass('show');" onmouseout="jQuery('.aboutMailingAddress').removeClass('show');" onclick="return false;">{$mailing_address}</a>
+        <a href="#" onclick="doBoardToggleMailing('{$module_info->module_srl}',this); return false;" class="toggleCommand <!--@if($mailing_joined)-->join<!--@else-->leave<!--@end-->"><img src="./img/on.png" alt="" class="on" /><img src="./img/off.png" alt="" class="off" /></a>
+    </p>
+        <div class="aboutMailingAddress"><!--@if(!$mailing_joined)-->{sprintf($lang->about_mailing_info, $mailing_address)}<!--@else-->{str_replace(array('[mail_address]','[module_address]'),array($logged_info->email_address, $mailing_address),$lang->about_mailing_info_joined)}<!--@end--><p class="count">{sprintf($lang->about_mailing_count, $mailing_count)}</p></div>
+
+<!--@end-->
+</div>

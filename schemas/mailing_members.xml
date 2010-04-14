@@ -1,0 +1,5 @@
+<table name="mailing_members">
+    <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+    <column name="member_srl" type="number" size="11" />
+    <column name="email_address" type="varchar" size="250" notnull="notnull" />
+</table>

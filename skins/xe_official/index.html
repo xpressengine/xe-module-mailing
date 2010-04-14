@@ -1,0 +1,153 @@
+<!--%import("css/mailing.css")-->
+<!--%import("js/mailing.js")-->
+
+<!--@if(!$module_info->duration_new)-->
+{@$module_info->duration_new = 24}
+<!--@end-->
+
+{@$duration_date = date("YmdHis",time() - $module_info->duration_new*60*60)}
+
+{$module_info->header_text}
+
+<!--@if($module_info->title)-->
+<div class="mailingHeader">
+    <div class="mailingTitle">
+        <h2 class="mailingTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+    </div>
+    <p class="mailingDescription">{nl2br($module_info->comment)}</p>
+</div>
+<!--@end-->
+
+
+<div class="mailingTree">
+    <a href="#" onclick="return false;" class="all strong">{$module_info->browser_title}</a> 
+    <!--@if($grant->manager)--><a href="{getUrl('act','dispMailingAdminInsert')}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a><!--@end-->
+
+    <ul>
+{@$_m_count = 1}
+<!--@foreach($mids as $key => $val)-->
+
+    <li class="nav_tree_off <!--@if($_m_count == count($mids))-->nav_tree_last<!--@end-->" id="tree_{$key}">
+        <button type="button" onclick="doToggleMailingTree(this);return false;">+</button>
+
+        <!--@if($key==0)-->
+            <a href="#" class="nav_tree_label <!--@if($val->joined)-->selected<!--@end-->">{$lang->mailing_theme} <!--@if($val->regdate > $duration_date)--><img src="./img/new.gif" alt="" /><!--@end--></a>
+        <!--@else-->
+            <a href="{getSiteUrl($val->domain, '')}" class="nav_tree_label <!--@if($val->joined)-->selected<!--@end-->" title="{htmlspecialchars($val->title)}">{$val->title} <!--@if($val->regdate > $duration_date)--><img src="./img/new.gif" alt="" /><!--@end--></a>
+        <!--@end-->
+
+        <ul>
+            {@$_mm_count = 1}
+            <!--@foreach($val->modules as $v)-->
+                <li class="<!--@if($_mm_count==count($val->modules))-->nav_tree_last<!--@end-->">
+                    <a href="{getSiteUrl($val->domain, '', 'mid', $v->mid)}" class="nav_tree_label" title="{htmlspecialchars($v->browser_title)}">{$v->browser_title} <!--@if($v->regdate > $duration_date)--><img src="./img/new.gif" alt="" /><!--@end--></a>
+
+                    <!--@if($is_logged)-->
+                    <a href="#" onclick="doToggleMailing('{$v->module_srl}',this); return false;" class="toggleCommand <!--@if($v->joined)-->join<!--@else-->leave<!--@end-->"><img src="./img/on.png" alt="" class="on" /><img src="./img/off.png" alt="" class="off" /></a>
+                    <!--@end-->
+                </li>
+            {@$_mm_count++}
+            <!--@end-->
+        </ul>
+    </li>
+    {@$_m_count++}
+<!--@end-->
+    </ul>
+</div>
+
+<div class="mailingContent">
+    <!--@if(!$is_logged)-->
+        <p class="aboutMailing">
+            {$lang->mailing_notice}
+        </p>
+    <!--@end-->
+    <!--@if($grant->create_board)-->
+        <p class="createBoard">
+            {$lang->mailing_create_info}
+            <span class="createButton"><a href="#" onclick="jQuery('.createForm').toggleClass('show');return false;" class="button large"><span>{$lang->cmd_create}</span></a></span>
+        </p>
+
+        <form class="createForm" onsubmit="return procFilter(this, create_board);">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="vid" value="{$vid}" />
+            <table>
+                <colgroup>
+                    <col width="90" />
+                    <col width="*" />
+                </colgroup>
+                <tr>
+                    <th>{$lang->mailing_create_mid}</th>
+                    <td>
+                        {getFullUrl()}<input type="text" name="board_id" value="" class="inputTypeText w80" maxlength="10">
+                        <p>{$lang->about_mailing_create_mid}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{$lang->mailing_create_title}</th>
+                    <td>
+                        <input type="text" name="browser_title" value="" class="inputTypeText w80" maxlength="10">
+                        <p>{$lang->about_mailing_create_title}</p>
+                    </td>
+                </tr>
+            </table>
+            <div class="buttonArea">
+                <span class="button"><input type="submit" value="{$lang->cmd_create}"></span>
+                <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="jQuery('.createForm').removeClass('show');return false;"></span>
+            </div>
+        </form>
+    <!--@end-->
+    <!--@foreach($document_list as $key => $val)-->
+
+        <!--@if($key == -1)-->
+            <h3>{$lang->mailing_joined_newest_documents}</h3>
+        <!--@elseif($key == 0)-->
+            <h3>{$lang->mailing_newest_documents}</h3>
+        <!--@else-->
+            <h3><a href="{getSiteUrl($val->module_info->domain, '', 'mid', $val->module_info->mid)}">{$val->module_info->browser_title}</a></h3>
+        <!--@end-->
+
+        <!--@if(count($val->list))-->
+        <ul>
+        <!--@foreach($val->list as $k => $v)-->
+            <li>
+                <a href="{$v->getPermanentUrl()}" class="documentTitle">{$v->getTitleText(70)}</a>
+                {$v->printExtraImages(60*60*$module_info->duration_new)}
+
+                <!--@if($comment_list[$v->document_srl])-->
+                    {@$_c = $comment_list[$v->document_srl]}
+                    <ul>
+                        <li>
+                            <a href="#" onclick="return false;" class="member_{$_c->get('member_srl')} author">{$_c->getNickName()}</a> -
+                            <a href="{$_c->getPermanentUrl()}">{$_c->getSummary(50)}<!--@if($v->get('regdate') > $duration_date)--> <img src="./img/new.gif" alt="" /><!--@end--></a> <!--@if($v->getCommentCount()>1)--><a href="{$v->getPermanentUrl()}#comment" class="commentMore">+{$v->getCommentCount()}</a><!--@end-->
+                        </li>
+                    </ul>
+
+                <!--@end-->
+
+                <div class="contentSummary">
+                    <h4>{$v->getTitle()}</h4>
+                    <span class="nickName"><a href="#" onclick="return false;" class="member_{$v->get('member_srl')}">{$v->getNickName()}</a></span>
+                    <span class="regDate">{$v->getRegdate('Y-m-d H:i')}</span>
+                    <p class="content">
+                        <!--@if($v->thumbnailExists(80, 80, 'crop'))-->
+                        <img src="{$v->getThumbnail(80,80,'crop')}" alt="" align="left"/>
+                        <!--@end-->
+                        {$v->getSummary(280)}
+                    </p>
+                </div>
+            </li>
+        <!--@end-->
+        </ul>
+        <!--@end-->
+    <!--@end-->
+</div>
+
+<script type="text/javascript">
+    jQuery(window).load( function() { 
+        doCheckFolder(); 
+        jQuery('.documentTitle').mouseover( doShowSummary );
+        jQuery('.documentTitle').mouseout( doHideSummary );
+    } );
+</script>
+
+{$module_info->footer_text}

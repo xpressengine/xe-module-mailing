@@ -1,0 +1,26 @@
+<query id="getModules" action="select">
+    <tables>
+        <table name="modules" />
+        <table name="module_grants" type="left join">
+            <conditions>
+                <condition operation="equal" column="modules.module_srl" default="module_grants.module_srl" />
+                <condition operation="equal" column="module_grants.name" default="access" pipe="and" />
+                <condition operation="notin" column="module_grants.group_srl" default="0,-1" pipe="and" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="modules.site_srl" alias="site_srl" />
+        <column name="modules.module_srl" alias="module_srl" />
+        <column name="modules.mid" alias="mid" />
+        <column name="modules.browser_title" alias="browser_title" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module" default="board" notnull="notnull" pipe="and" />
+        <condition operation="null" column="module_grants.group_srl" default="1" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="modules.site_srl" order="desc" />
+        <index var="sort_index" default="modules.module_srl" order="asc" />
+    </navigation>
+</query>

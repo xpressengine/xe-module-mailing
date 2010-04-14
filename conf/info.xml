@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+    <title xml:lang="ko">메일링</title>
+    <title xml:lang="en">Mailing</title>
+    <description xml:lang="ko">메일링 모듈.</description>
+    <description xml:lang="en">This module maintains mailing list.</description>
+    <version>0.1</version>
+    <date>2009-12-18</date>
+    <category>service</category>
+
+    <author email_address="haneul@xpressengine.com" link="http://seungyeop.kr">
+        <name xml:lang="ko">haneul</name>
+        <name xml:lang="en">haneul</name>
+    </author>
+</module>

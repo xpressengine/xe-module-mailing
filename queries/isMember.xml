@@ -1,0 +1,15 @@
+<query id="isMember" action="select">
+    <tables>
+        <table name="mailing_members" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <group pipe="and">
+            <condition operation="equal" column="member_srl" var="member_srl" filter="number" />
+            <condition operation="equal" column="email_address" var="email_address" pipe="or" />
+        </group>
+    </conditions>
+</query>

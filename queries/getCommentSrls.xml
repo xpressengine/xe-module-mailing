@@ -1,0 +1,15 @@
+<query id="getCommentSrls" action="select">
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="document_srl" />
+        <column name="max(comment_srl)" alias="comment_srl" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srls" notnull="notnull" filter="number" />
+    </conditions>
+    <groups>
+        <group column="document_srl" />
+    </groups>
+</query>

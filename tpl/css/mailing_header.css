@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+.mailingInfo { text-align:right; color:#0e4a15; position:relative; z-index:1000; margin:0 0 10px 0; color:#666;}
+.mailingInfo a { color:#999; }
+.mailingInfo p { display:inline; background:url(../img/postbox.gif) no-repeat left top; padding:0 0 0 22px; margin:0 0 10px 0; }
+
+.mailingInfo a.toggleCommand { vertical-align:middle; }
+.mailingInfo a.toggleCommand img { display:none; }
+.mailingInfo a.toggleCommand.join img.on { display:inline; }
+.mailingInfo a.toggleCommand.leave img.off { display:inline; }
+
+.aboutMailingAddress { display:none; border:2px solid #aaa; padding:10px; position:absolute; top:20px; right:0; background-color:#fff; z-index:1000; width:500px; text-align:left; }
+.aboutMailingAddress.show { display:block; }
+.aboutMailingAddress p.count { color:#888; display:block; background:none; padding:0; margin:5px 0 0 0;}

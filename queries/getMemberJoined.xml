@@ -1,0 +1,16 @@
+<query id="getMemberJoined" action="select">
+    <tables>
+        <table name="mailing_members" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="mailing_members.*" />
+        <column name="modules.site_srl" alias="site_srl" />
+        <column name="modules.mid" alias="mid" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="modules.module_srl" var="module_srl" />
+        <condition operation="equal" column="mailing_members.module_srl" default="modules.module_srl" filter="number" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="mailing_members.member_srl" var="member_srl" pipe="and" />
+    </conditions>
+</query>

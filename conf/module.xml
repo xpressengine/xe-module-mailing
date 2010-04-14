@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="create_board" default="member">
+            <title xml:lang="ko">게시판 생성</title>
+        </grant>
+    </grants>
+    <permissions>
+    </permissions>
+    <actions>
+        <action name="dispMailingIndex" type="view" index="true" />
+
+        <action name="procMailingToggleList" type="controller" standalone="true" />
+
+        <action name="procMailingInsertMail" type="controller" standalone="true" />
+        <action name="procMailingCreateBoard" type="controller" standalone="true" />
+
+        <action name="dispMailingAdminIndex" type="view" standalone="true" admin_index="true" />
+
+        <action name="dispMailingAdminInsert" type="view" standalone="true" setup_index="true" />
+        <action name="dispMailingAdminSkin" type="view" standalone="true" />
+        <action name="dispMailingAdminGrant" type="view" standalone="true" />
+
+        <action name="procMailingAdminInsert" type="controller" standalone="true" />
+        <action name="procMailingAdminConfig" type="controller" standalone="true" />
+        <action name="procMailingAdminDelete" type="controller" standalone="true" />
+    </actions>
+</module>

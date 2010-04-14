@@ -1,0 +1,11 @@
+<filter name="leave_mailing" module="mailing" act="procMailingLeaveList" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="module_srl" required="true" />
+        <node target="member_srl" required="true" />
+    </form>
+    <response callback_func="completeJoinLeaveList">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

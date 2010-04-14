@@ -1,0 +1,93 @@
+@charset "utf-8";
+
+/* header */
+.mailingHeader .mailingTitle{ font-size:1em; letter-spacing:-.1em; margin-bottom:10px; border-bottom:3px solid; *zoom:1; background-repeat:no-repeat; background-position:left center;}
+.mailingHeader .mailingTitle:after{ content:""; display:block; clear:both;}
+.mailingHeader .mailingTitleText{ float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 5px; border-bottom:3px solid; background-repeat:no-repeat; background-position:right bottom;}
+.mailingHeader .mailingTitleText a{ text-decoration:none;}
+.mailingHeader .mailingTitleText em{ font-style:normal; font-weight:normal;}
+.mailingHeader .mailingDescription{ padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; position:relative;}
+.mailingHeader .mailingTitle{ border-color:#aaa; }
+.mailingHeader .mailingTitleText{ border-color:#666; background-image:url(./img/lineVr11.gif);}
+.mailingHeader .mailingTitleText a{ color:#000;}
+.mailingHeader .mailingTitleText em{ color:#666;}
+.mailingHeader .mailingDescription{ background:#efefef; border:1px solid #ccc;}
+
+
+/* mailing */
+span.mailing a.leave,
+span.mailing.joined a.join { display:none; }
+span.mailing a.join,
+span.mailing.joined a.leave { display:inline; }
+
+/* mailing Tree */
+.mailingTree { margin-top:10px; width:200px; margin-right:30px; padding-right:10px; border-right:1px dotted #dedede; color:#333; float:left; }
+.mailingTree a{ color:#333; text-decoration:none;background-color:#fff;}
+.mailingTree a.all { background:url(../img/folder.gif) no-repeat left top; padding-left:20px;}
+.mailingTree a.strong { font-weight:bold; }
+.mailingTree span { font-size:9px; font-family:tahoma; padding:0; margin:0; color:#999;}
+.mailingTree ul span { margin-left:15px; }
+.mailingTree *{ margin:0; padding:0; font-size:12px;}
+.mailingTree a strong{ letter-spacing:-1px; cursor:pointer; _cursor /**/:hand;}
+.mailingTree ul{ position:relative; display:block; padding:3px 0 0 0 !important; zoom:1; margin-left:8px; background:url(../img/lineTreeVr.gif) repeat-y 0 -1px;}
+.mailingTree ul li{ list-style:none; position:relative; padding:3px 0 2px 8px; space:nowrap; white-space:nowrap; background:url(../img/lineTreeHr.gif) no-repeat 1px 5px !important; overflow:hidden; padding-right:20px; *zoom:1;}
+.mailingTree ul li:hover { overflow:visible; background-color:#fff; z-index:1000;}
+.mailingTree ul li.nav_tree_last{ background:url(../img/lineTreeLastHr.gif) no-repeat 0 5px !important;}
+.mailingTree ul li .nav_tree_label,
+.mailingTree ul li .sum{ position:relative; left:16px; _left /**/:0; top:0; font-style:normal;}
+.mailingTree ul li a {text-decoration:none; background-color:#fff;}
+.mailingTree ul li a.selected {font-weight:bold;}
+.mailingTree ul li a.toggleCommand { padding-left:15px; }
+.mailingTree ul li a.toggleCommand img { display:none; margin-left:2px;}
+.mailingTree ul li a.toggleCommand.join img.on { display:inline; }
+.mailingTree ul li a.toggleCommand.leave img.off { display:inline; }
+.mailingTree ul li button{ display:inline-block; position:relative; _left /**/:-16px; *top:-2px; width:13px; height:13px; *width:17px; *height:17px; margin:0 -13px 0 0; *margin:0 -17px -2px -2px; text-indent:-10000px; *text-indent:0; *font:0/0 Sans-serif; border:none; cursor:pointer; _cursor /**/:hand; background:url(../img/buttonTreeCollapse.gif) no-repeat;}
+.mailingTree ul li ul{ display:none; padding:2px 0 0 0 !important; margin:0 0 -2px 6px; background-position:left top;}
+.mailingTree ul li ul li{ display:none; white-space:nowrap; overflow:hidden; padding-right:20px; *zoom:1;}
+.mailingTree ul li ul li:hover { overflow:visible; background-color:#fff; z-index:1000;}
+.mailingTree ul li.nav_tree_on button{ background-position:0 -13px; *background-position:2px -11px;}
+.mailingTree ul li.nav_tree_off button{ background-position:0 0; *background-position:2px 2px;}
+.mailingTree ul li.nav_tree_on ul{ display:block;}
+.mailingTree ul li.nav_tree_on ul li{ display:block;}
+.mailingTree ul li.nav_tree_off ul{ display:none;}
+.mailingTree ul li.nav_tree_off ul li{ display:none;}
+.mailingTree ul li.active,
+.mailingTree ul li.active a{ font-weight:bold;}
+.mailingTree ul li.active li,
+.mailingTree ul li.active li a{ font-weight:normal;}
+.mailingTree .icon{ position:relative; left:16px;}
+
+.mailingContent { position:relative; *zoom:1; overflow:hidden; padding-bottom:200px; }
+
+p.aboutMailing { padding:20px; height:40px; margin:0 0 20px 0; border:1px dotted #bbb; color:#888; background:url(../img/notice.png) no-repeat 10px 20px; padding-left:70px;  vertical-align:middle; line-height:120%; }
+p.createBoard{ height:45px; margin:0 0 20px 0; border:1px dotted #bbb; color:#888; background:url(../img/createInfo.png) no-repeat 10px 10px; padding:15px 80px 0 70px;  vertical-align:middle; line-height:120%;  position:relative; overflow:hidden; *zoom:1;}
+p.createBoard .createButton { position:absolute; right:10px; top:15px; }
+
+.mailingContent h3 { font-size:12px; font-weight:bold; background:url(../img/documentFolder.png) no-repeat left top; padding:0 0 5px 20px; color:#000; border-bottom:1px dotted #ccc; }
+.mailingContent h3 a { color:#000; text-decoration:none; }
+.mailingContent h3 a:hover { text-decoration:underline; }
+.mailingContent ul { padding:0; margin:0 0 30px 20px; list-style:none; }
+.mailingContent ul li { padding:0 0 0 20px; white-space:nowrap; margin-bottom:10px; position:relative;  background:url(../img/doc.png) no-repeat left top; }
+.mailingContent ul li a { color:#444; text-decoration:none; }
+.mailingContent ul li a:hover { color:#444; text-decoration:underline; }
+
+.contentSummary { display:none; position:absolute; top:20px; left:40px; background-color:#fff; padding:10px; border:3px solid #ccc; text-align:left; color:#888;}
+.contentSummary h4 { font-size:12px; font-weight:bold; border-bottom:1px solid #ccc; padding:0 0 5px 0; margin:0 0 10px 0;  clear:both;}
+.contentSummary span.nickName { display:block; float:left; }
+.contentSummary span.nickName a { color:#aaa; }
+.contentSummary span.regDate { display:block; float:right; font-size:10px; font-family:tahoma; color:#aaa;}
+.contentSummary p.content { clear:both; white-space:normal; padding-top:10px; }
+.contentSummary p.content img { margin:0 10px 10px 0; border:1px solid #ccc; padding:1px; }
+
+.mailingContent ul li ul { padding:0; margin:0; list-style:none; }
+.mailingContent ul li ul li { padding:0 0 0 15px; margin:5px 0 5px 0px; background:url(../img/lineNode.gif) no-repeat left top; color:#888;}
+.mailingContent ul li ul li a { color:#888; }
+.mailingContent ul li ul li a.author { color:#888; }
+.mailingContent ul li ul li a.commentMore { font-size:8px; font-family:tahoma; }
+
+.createForm {margin: auto;border:1px solid #D7D7D7;text-align:left; display:none; padding:10px;}
+.createForm.show { display:block; }
+.createForm table {font-size:12px;border-collapse:collapse; }
+.createForm th {padding:5px 0 5px 10px;font-weight:bold;text-align:left; vertical-align:top;}
+.createForm td p {padding:none; margin-top:10px; color:#aaa;}
+.createForm .buttonArea { text-align:right; }

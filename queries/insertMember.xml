@@ -1,0 +1,10 @@
+<query id="insertMember" action="insert">
+    <tables>
+        <table name="mailing_members" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" notnull="notnull" /> 
+        <column name="module_srl" var="module_srl" notnull="notnull" /> 
+        <column name="email_address" var="email_address" notnull="notnull" /> 
+    </columns>
+</query>
