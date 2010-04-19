@@ -110,28 +110,41 @@
             }
             $member_info = $memberModel->getMemberInfoByMemberSrl($member_srl);
 
-            $toAddress = mailparse_rfc822_parse_addresses($mailMessage->to);
-            $obj = array_shift($toAddress);
-            $obj = $obj["address"];
-            $mailingAddress = $obj;
-            $mid = explode("@", $obj);
-            $mid = array_shift($mid);
-            $mid = explode(".", $mid);
-            $site_srl = 0;
-            $moduleModel =& getModel('module');
-            if(count($mid) > 1)
+			$oModuleModel =& getModel('module');
+            $mailingConfig = $oModuleModel->getModuleConfig('mailing');
+            $maildomain = $mailingConfig->maildomain;
+            if(!$maildomain)
             {
-                $vid = $mid[0];
-                $mid = $mid[1];
-                $site_info = $moduleModel->getSiteInfoByDomain($vid);
-                $site_srl = $site_info->site_srl;
-            }
-            else
-            {
-                $mid = $mid[0];
+                $maildomain = $_SERVER["SERVER_NAME"];
             }
 
-            $targetModule = $moduleModel->getModuleInfoByMid($mid, $site_srl);
+            $toAddress = mailparse_rfc822_parse_addresses($mailMessage->to);
+			foreach($toAddress as $objAddress)
+			{
+				$obj = $objAddress["address"];
+				$mailingAddress = $obj;
+				$mid = explode("@", $obj);
+				if($mid[1] != $maildomain) continue;
+				$mid = array_shift($mid);
+				$mid = explode(".", $mid);
+				$site_srl = 0;
+				$moduleModel =& getModel('module');
+				if(count($mid) > 1)
+				{
+					$vid = $mid[0];
+					$mid = $mid[1];
+					$site_info = $moduleModel->getSiteInfoByDomain($vid);
+					$site_srl = $site_info->site_srl;
+				}
+				else
+				{
+					$mid = $mid[0];
+				}
+
+				$targetModule = $moduleModel->getModuleInfoByMid($mid, $site_srl);
+				if($targetModule) break;
+			}
+
             if(!$targetModule)
             {
                 $mailMessage->close();
