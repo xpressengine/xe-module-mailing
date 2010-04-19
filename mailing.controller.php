@@ -198,7 +198,30 @@
                 $obj->nick_name = $member_info->nick_name;
                 $obj->email_address = $member_info->email_address;
                 $obj->homepage = $member_info->homepage;
-                $obj->title = $mailMessage->subject;
+				preg_match("!^\[(.*)\] (.*)!", $mailMessage->subject, $matches);
+				if(count($matches))
+				{
+					$category_name = $matches[1];
+					$title = $matches[2];
+					$oDocumentModel =& getModel('document');
+					$categoryList = $oDocumentModel->getCategoryList($targetModule->module_srl);
+					foreach($categoryList as $category)
+					{
+						if($category_name == $category->title)
+						{
+							$obj->category_srl = $category->category_srl;
+							break;
+						}
+					}
+				}
+				if($obj->category_srl)
+				{
+					$obj->title = $title;
+				}
+				else
+				{
+					$obj->title = $mailMessage->subject;
+				}
                 $obj->content = $this->replaceCid($mailMessage->getBody());
                 $obj->module_srl = $targetModule->module_srl;
                 $oDocumentController = &getController('document');
@@ -275,9 +298,18 @@
 
             $oDocumentModel =& getModel('document');
             $oDocument = $oDocumentModel->getDocument($obj->document_srl);
+			if($oDocument->get('category_srl'))
+			{
+				$category = $oDocumentModel->getCategory($oDocument->get('category_srl'));
+				$title = sprintf("[%s] %s", $category->title, $oDocument->getTitleText());
+			}
+			else
+			{
+				$title = $oDocument->getTitleText();
+			}
 
             $oMail = new Mail();
-            $oMail->setTitle("RE: ".$oDocument->getTitleText());
+            $oMail->setTitle("RE: ".$title);
 
             $oMail->setContent( $content ); 
             $oMail->setSender($obj->user_name, $obj->email_address);
@@ -339,7 +371,17 @@
             $content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $obj->content);
 
             $oMail = new Mail();
-            $oMail->setTitle($obj->title);
+			if($obj->category_srl)
+			{
+				$oDocumentModel =& getModel('document');
+				$category = $oDocumentModel->getCategory($obj->category_srl);
+				$title = sprintf("[%s] %s", $category->title, $obj->title);
+			}
+			else
+			{
+				$title = $obj->title;
+			}
+            $oMail->setTitle($title);
 
             $content = sprintf("<a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $content);
 
