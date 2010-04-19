@@ -226,6 +226,7 @@
         var $inreplyto = null;
         var $references = null;
         var $messageId = null;
+		var $cc = null;
         
         function mailMessage($path)
         {
@@ -276,6 +277,8 @@
             $this->subject = imap_utf8($headers['subject']); 
             $this->to = imap_utf8($headers['to']);
             $this->from = imap_utf8($headers['from']);
+			if($headers['cc'])
+				$this->cc = imap_utf8($headers['cc']);
             $this->inreplyto = $headers['in-reply-to'];
             $this->references = $headers['references'];
             $this->messageId = $headers['message-id'];

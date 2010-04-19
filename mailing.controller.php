@@ -119,6 +119,10 @@
             }
 
             $toAddress = mailparse_rfc822_parse_addresses($mailMessage->to);
+			if($mailMessage->cc) {
+				$ccAddress = mailparse_rfc822_parse_addresses($mailMessage->cc);
+				$toAddress = array_merge($toAddress, $ccAddress);
+			}
 			foreach($toAddress as $objAddress)
 			{
 				$obj = $objAddress["address"];
