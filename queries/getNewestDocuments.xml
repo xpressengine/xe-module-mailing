@@ -16,7 +16,7 @@
     <conditions>
         <condition operation="notin" column="documents.module_srl" var="except_module_srls" pipe="and" />
         <condition operation="equal" column="modules.module_srl" default="documents.module_srl" pipe="and" />
-        <condition operation="equal" column="modules.module" default="board" pipe="and" />
+        <condition operation="in" column="modules.module" default="'board','wiki','kin'" pipe="and" />
         <condition operation="null" column="module_grants.group_srl" default="1" pipe="and" />
     </conditions>
     <navigation>

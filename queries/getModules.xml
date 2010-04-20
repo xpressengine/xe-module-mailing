@@ -16,7 +16,7 @@
         <column name="modules.browser_title" alias="browser_title" />
     </columns>
     <conditions>
-        <condition operation="equal" column="modules.module" default="board" notnull="notnull" pipe="and" />
+        <condition operation="in" column="modules.module" default="'board','kin','wiki'" notnull="notnull" pipe="and" />
         <condition operation="null" column="module_grants.group_srl" default="1" pipe="and" />
     </conditions>
     <navigation>

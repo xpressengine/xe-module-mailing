@@ -418,7 +418,7 @@
         function triggerDisplayMailingInfo(&$obj) {
             $oModuleModel = &getModel('module');
 
-            if($obj->module != 'board' || Context::getResponseMethod()!="HTML" || !$obj->grant->access || strpos($obj->act, 'Admin')>0) return new Object();
+            if(!in_array($obj->module, array('board','kin','wiki')) || Context::getResponseMethod()!="HTML" || !$obj->grant->access || strpos($obj->act, 'Admin')>0) return new Object();
             $config = $oModuleModel->getModuleConfig('mailing');
             if($config->display_board_header!='Y') return new Object();
                     
