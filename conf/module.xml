@@ -3,6 +3,7 @@
     <grants>
         <grant name="create_board" default="member">
             <title xml:lang="ko">게시판 생성</title>
+            <title xml:lang="zh-TW">討論板建立</title>
         </grant>
     </grants>
     <permissions>
