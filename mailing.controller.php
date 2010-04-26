@@ -30,7 +30,9 @@
         }
 
         function removeOrgMsg($body) {
-            preg_match("/<div[^>]*>(.+)<div style=\'border/siU", $body, $match);
+            preg_match("/<div[^>]*>(.+)<div style=\'border/siU", $body, $match); // outlook
+            if($match) return $match[1];
+            preg_match('!^(.+)<div class="gmail_quote"!', $body, $match); // gmail
             if($match) return $match[1];
             return $body;
         }
