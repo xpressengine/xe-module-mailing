@@ -2,12 +2,13 @@
 import sys
 import http.client
 import mimetypes
-file = open("backup2.txt", "r")
+
+xeserver = "##input your server address##" # ex) haneul.xpressengine.com
+xelocation = "##input your location##" # ex) /xe  if you install your xe on the root just leave it blank ""
 
 message = ""
-for line in file:
-	message += line
-file.close()
+for line in sys.stdin:
+	message += line	
 
 def get_content_type(filename):
     return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
@@ -39,11 +40,19 @@ L.append('')
 body = CRLF.join(L)
 content_type = 'multipart/form-data; boundary=%s' % BOUNDARY
 
-conn = http.client.HTTPConnection("haneul.xpressengine.com")
-conn.putrequest("POST", "/xe2/index.php")
+conn = http.client.HTTPConnection(xeserver)
+conn.putrequest("POST", xelocation+"/index.php")
 conn.putheader('content-type', content_type)
 conn.putheader('content-length', str(len(body)))
 conn.endheaders()
 conn.send(body.encode())
 r1 = conn.getresponse()
 print(r1.status, r1.reason)
+
+	
+#message = parser.parse(sys.stdin)
+
+#for part in message.work():
+#	file.write(part.get_content_type() + "\n")
+
+
