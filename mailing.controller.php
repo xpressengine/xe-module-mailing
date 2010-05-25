@@ -247,7 +247,7 @@
                 $oMail = new Mail();
                 $oMail->setTitle($obj->title);
                 $oMail->setContent( $this->replaceCid($content, true) ); 
-                $oMail->setSender($obj->user_name, $obj->email_address);
+                $oMail->setSender($obj->nick_name, $obj->email_address);
                 $oMail->setMessageId( ($obj->comment_srl?$obj->comment_srl:$obj->document_srl)."@".$maildomain );
                 $oMail->setReplyTo( $mailingAddress );
                 $oMail->setReceiptor($mailingAddress, $mailingAddress);
@@ -287,6 +287,7 @@
 
         function triggerInsertComment(&$obj)
         {
+            if(Context::get('act') == 'procMailingInsertMail') return;
             $moduleModel =& getModel('module');
             $module_srl = $obj->module_srl;
             $targetModule = $moduleModel->getModuleInfoByModuleSrl($module_srl);
@@ -364,6 +365,7 @@
 
         function triggerInsertDocument(&$obj)
         {
+            if(Context::get('act') == 'procMailingInsertMail') return;
             $module_srl = $obj->module_srl;
             $moduleModel =& getModel('module');
             $targetModule = $moduleModel->getModuleInfoByModuleSrl($module_srl);
