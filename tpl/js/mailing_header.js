@@ -9,7 +9,6 @@ function completeBoardToggleMailing(obj) {
 }
 
 jQuery(function($){
-	$('.mailingInfo .desc').hide();
 	$('.mailingInfo .mBtn>button').click(function(){
 		if(!$(this).parent('.mBtn').next('.desc').hasClass('open')){
 			$(this).parent('.mBtn').next('.desc').addClass('open').slideDown(200);

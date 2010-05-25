@@ -8,7 +8,7 @@
 .mailingInfo .mBtn.optIn button{ background-position:right top;}
 .mailingInfo .mBtn.optOut{ background-position:left -20px;}
 .mailingInfo .mBtn.optOut button{ background-position:right -20px;}
-.mailingInfo .desc{ position:relative; top:-20px; z-index:1; border:1px solid #ccc; line-height:1.4; padding:25px 2em 15px 2em; margin:0 0 -20px 0; color:#767676; background:#fcfcfc; box-shadow:0 0 2px #bbb; -moz-box-shadow:0 0 2px #bbb; -webkit-box-shadow:0 0 2px #bbb; *zoom:1;}
+.mailingInfo .desc{ display:none; position:relative; top:-20px; z-index:1; border:1px solid #ccc; line-height:1.4; padding:25px 2em 15px 2em; margin:0 0 -20px 0; color:#767676; background:#fcfcfc; box-shadow:0 0 2px #bbb; -moz-box-shadow:0 0 2px #bbb; -webkit-box-shadow:0 0 2px #bbb; *zoom:1;}
 .mailingInfo .desc{	border-top-left-radius:15px; border-bottom-right-radius:15px; -moz-border-radius-topleft:15px; -moz-border-radius-bottomright:15px;	-webkit-border-top-left-radius:15px; -webkit-border-bottom-right-radius:15px;}
 .mailingInfo .desc .hx{ display:block; font-size:14px; color:#333;}
 .mailingInfo .desc p{ *zoom:1;}
