@@ -130,11 +130,18 @@
 				$obj = $objAddress["address"];
 				$mailingAddress = $obj;
 				$mid = explode("@", $obj);
-				if($mid[1] != $maildomain) continue;
+				$moduleModel =& getModel('module');
+				if($mid[1] != $maildomain) {
+					$site_info = $moduleModel->getSiteInfoByDomain($mid[1]);
+                    if(!$site_info) continue;
+                    $site_srl = $site_info->site_srl;    
+                }
+                else
+                {
+				    $site_srl = 0;
+                }
 				$mid = array_shift($mid);
 				$mid = explode(".", $mid);
-				$site_srl = 0;
-				$moduleModel =& getModel('module');
 				if(count($mid) > 1)
 				{
 					$vid = $mid[0];
@@ -282,7 +289,13 @@
             if($targetModule->site_srl != 0)
             {
                 $site_info = $moduleModel->getSiteInfo($targetModule->site_srl);
-                $vid = $site_info->domain;
+                if(isSiteID($site_info->domain)) {
+                    $vid = $site_info->domain;
+                }
+                else
+                {
+                    $maildomain = $site_info->domain;
+                }
             }
             $mid = $targetModule->mid;
             $oModel =& getModel('mailing');
@@ -292,7 +305,7 @@
             $content = sprintf("<a href=\"%s#comment_%d\">%s#comment_%d</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), $obj->comment_srl, getFullUrl('','document_srl',$obj->document_srl), $obj->comment_srl, $content);
             $oModuleModel =& getModel('module');
             $mailingConfig = $oModuleModel->getModuleConfig('mailing');
-            $maildomain = $mailingConfig->maildomain;
+            if(!$maildomain) $maildomain = $mailingConfig->maildomain;
             if(!$maildomain)
             {
                 $maildomain = $_SERVER["SERVER_NAME"];
@@ -314,7 +327,8 @@
             $oMail->setTitle("RE: ".$title);
 
             $oMail->setContent( $content ); 
-            $oMail->setSender($obj->user_name, $obj->email_address);
+            if(!$obj->email_address) $oMail->setSender($obj->nick_name, $obj->nick_name.'@noreply.com');
+            else $oMail->setSender($obj->nick_name, $obj->email_address);
             $oMail->setMessageId( $obj->comment_srl."@".$_SERVER["SERVER_NAME"] );
             $oMail->setReferences( $obj->parent_srl?$obj->parent_srl:$obj->document_srl."@".$_SERVER["SERVER_NAME"] );
             if($targetModule->site_srl != 0)
@@ -355,7 +369,13 @@
             if($targetModule->site_srl != 0)
             {
                 $site_info = $moduleModel->getSiteInfo($targetModule->site_srl);
-                $vid = $site_info->domain;
+                if(isSiteID($site_info->domain)) {
+                    $vid = $site_info->domain;
+                }
+                else
+                {
+                    $maildomain = $site_info->domain;
+                }
             }
             $mid = $targetModule->mid;
 
@@ -365,7 +385,8 @@
 
             $oModuleModel =& getModel('module');
             $mailingConfig = $oModuleModel->getModuleConfig('mailing');
-            $maildomain = $mailingConfig->maildomain;
+            if(!$maildomain) $maildomain = $mailingConfig->maildomain;
+
             if(!$maildomain)
             {
                 $maildomain = $_SERVER["SERVER_NAME"];
@@ -388,7 +409,8 @@
             $content = sprintf("<a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $content);
 
             $oMail->setContent( $content ); 
-            $oMail->setSender($obj->user_name, $obj->email_address);
+            if(!$obj->email_address) $oMail->setSender($obj->nick_name, $obj->nick_name.'@noreply.com');
+            else $oMail->setSender($obj->nick_name, $obj->email_address);
             $oMail->setMessageId( ($obj->document_srl)."@".$_SERVER["SERVER_NAME"] );
             if($vid)
             {
@@ -427,8 +449,15 @@
             $mailing_address = $obj->module_info->mid.'@'.$config->maildomain;
             $site_module_info = Context::get('site_module_info');
 
-            $site_module_info = Context::get('site_module_info');
-            if($obj->module_info->site_srl && $obj->module_info->site_srl == $site_module_info->site_srl) $mailing_address = $site_module_info->domain.'.'.$mailing_address;
+            if($obj->module_info->site_srl && $obj->module_info->site_srl == $site_module_info->site_srl) {
+                if(isSiteID($site_module_info->domain)) {
+                    $mailing_address = $site_module_info->domain.'.'.$mailing_address;
+                }
+                else
+                {
+                    $mailing_address = $obj->module_info->mid.'@'.$site_module_info->domain;
+                }
+            }
 
             Context::set('mailing_address', $mailing_address);
 
