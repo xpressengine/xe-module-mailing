@@ -90,12 +90,21 @@
         {
             $message = Context::get('message');
             if(!$message) return;
+
+			$oModuleModel =& getModel('module');
+            $mailingConfig = $oModuleModel->getModuleConfig('mailing');
+            $maildomain = $mailingConfig->maildomain;
+            if(!$maildomain)
+            {
+                $maildomain = $_SERVER["SERVER_NAME"];
+            }
+
             $mailMessage = new mailMessage($message['tmp_name']);
             $mailMessage->parse();
             if($mailMessage->messageId)
             {
                 preg_match("/@(.+)>$/i", $mailMessage->messageId, $matches);
-                if($matches[1] == $_SERVER["SERVER_NAME"])
+                if($matches[1] == $_SERVER["SERVER_NAME"] || $matches[1] == $maildomain)
                 {
                     return;
                 }
@@ -114,13 +123,6 @@
             }
             $member_info = $memberModel->getMemberInfoByMemberSrl($member_srl);
 
-			$oModuleModel =& getModel('module');
-            $mailingConfig = $oModuleModel->getModuleConfig('mailing');
-            $maildomain = $mailingConfig->maildomain;
-            if(!$maildomain)
-            {
-                $maildomain = $_SERVER["SERVER_NAME"];
-            }
 
             $toAddress = mailparse_rfc822_parse_addresses($mailMessage->to);
 			if($mailMessage->cc) {
@@ -246,7 +248,7 @@
                 $oMail->setTitle($obj->title);
                 $oMail->setContent( $this->replaceCid($content, true) ); 
                 $oMail->setSender($obj->user_name, $obj->email_address);
-                $oMail->setMessageId( ($obj->comment_srl?$obj->comment_srl:$obj->document_srl)."@".$_SERVER["SERVER_NAME"] );
+                $oMail->setMessageId( ($obj->comment_srl?$obj->comment_srl:$obj->document_srl)."@".$maildomain );
                 $oMail->setReplyTo( $mailingAddress );
                 $oMail->setReceiptor($mailingAddress, $mailingAddress);
                 $cid_array = Context::get('cid_array');
@@ -307,11 +309,8 @@
             $content = sprintf("<a href=\"%s#comment_%d\">%s#comment_%d</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), $obj->comment_srl, getFullUrl('','document_srl',$obj->document_srl), $obj->comment_srl, $content);
             $oModuleModel =& getModel('module');
             $mailingConfig = $oModuleModel->getModuleConfig('mailing');
+            if(!$mailingConfig->maildomain) $mailingConfig->maildomain = $_SERVER["SERVER_NAME"];
             if(!$maildomain) $maildomain = $mailingConfig->maildomain;
-            if(!$maildomain)
-            {
-                $maildomain = $_SERVER["SERVER_NAME"];
-            }
 
             $oDocumentModel =& getModel('document');
             $oDocument = $oDocumentModel->getDocument($obj->document_srl);
@@ -331,9 +330,9 @@
             $oMail->setContent( $content ); 
             if(!$obj->email_address) $oMail->setSender($obj->nick_name, $obj->nick_name.'@noreply.com');
             else $oMail->setSender($obj->nick_name, $obj->email_address);
-            $oMail->setMessageId( $obj->comment_srl."@".$_SERVER["SERVER_NAME"] );
+            $oMail->setMessageId( $obj->comment_srl."@".$mailingConfig->maildomain );
             $oMail->setReferences( $obj->parent_srl?$obj->parent_srl:$obj->document_srl."@".$_SERVER["SERVER_NAME"] );
-            if($targetModule->site_srl != 0)
+            if($vid)
             {
                 $mailingAddress = $vid.".".$mid."@".$maildomain;
             }
@@ -387,12 +386,8 @@
 
             $oModuleModel =& getModel('module');
             $mailingConfig = $oModuleModel->getModuleConfig('mailing');
+            if(!$mailingConfig->maildomain) $mailingConfig->maildomain = $_SERVER["SERVER_NAME"];
             if(!$maildomain) $maildomain = $mailingConfig->maildomain;
-
-            if(!$maildomain)
-            {
-                $maildomain = $_SERVER["SERVER_NAME"];
-            }
             $content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $obj->content);
 
             $oMail = new Mail();
@@ -413,7 +408,7 @@
             $oMail->setContent( $content ); 
             if(!$obj->email_address) $oMail->setSender($obj->nick_name, $obj->nick_name.'@noreply.com');
             else $oMail->setSender($obj->nick_name, $obj->email_address);
-            $oMail->setMessageId( ($obj->document_srl)."@".$_SERVER["SERVER_NAME"] );
+            $oMail->setMessageId( ($obj->document_srl)."@".$mailingConfig->maildomain );
             if($vid)
             {
                 $mailingAddress = $vid.".".$mid."@".$maildomain;
