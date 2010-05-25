@@ -34,6 +34,8 @@
             if($match) return $match[1];
             preg_match('!^(.+)<div class="gmail_quote"!', $body, $match); // gmail
             if($match) return $match[1];
+            preg_match('!^(.+)<span>-----Original Message-----</span>!', $body, $match);
+            if($match) return $match[1].'</p></div>';
             return $body;
         }
 
