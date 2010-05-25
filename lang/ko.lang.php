@@ -22,10 +22,10 @@
     $lang->mailing_newest_documents = '최신 글';
 
     $lang->mailing_info_not_logged = '로그인 하시면 <strong>%s</strong> 메일링 가입을 하실 수 있습니다.';
-    $lang->mailing_info = '<strong>%s</strong> 메일 주소';
-    $lang->about_mailing_info= '이 게시판의 메일링 기능을 사용하지 않고 있습니다.<br/>우측 아이콘을 선택하셔서 활성화 시키시면 메일링 기능을 사용하실 수 있습니다.<br/>메일링 기능 사용시 이 게시판에 새 글/ 댓글이 등록이 되면 메일로 받을 수 있습니다.<br/>또는 <strong>%s</strong>로 메일을 보내면 게시판에 접속하지 않고 새 글을 등록할 수 있고 답변 메일을 보내면 원본 글에 댓글로 등록이 될 수 있습니다.';
-    $lang->about_mailing_info_joined = '이 게시판의 메일링 기능을 사용하고 계십니다.<br/>사용하지 않으시려면 우측 아이콘을 선택하셔서 비활성화 시키시면 됩니다.<br/>이 게시판으로 글을 쓰기 위해서는 <strong>[module_address]</strong> 로 메일을 작성/ 발송하시면 됩니다<br/>단, 발송 메일 주소가 <strong>[mail_address]</strong> 이어야 합니다.';
-    $lang->about_mailing_count = '이 게시판의 메일링 참가자 수는 %d 명입니다.';
+    $lang->mailing_info = '<strong>%s</strong>';
+    $lang->about_mailing_info= '<strong class="hx">귀하는 현재 이 게시판의 메일링 기능을 사용하지 않고 있습니다.</strong><br/><strong>메일링 신청</strong> 버튼을 누르면 메일링 기능을 사용할 수 있습니다.<br/>메일링 기능을 사용하면 이 게시판에 새 글 및 댓글이 등록될 때 메일로 받을 수 있습니다.<br/><strong>%s</strong>으로 메일을 보내면 게시판에 접속하지 않고 새 글을 등록할 수 있으며 답변 메일을 보내면 원본 글에 댓글로 등록이 됩니다.';
+    $lang->about_mailing_info_joined = '<strong class="hx">귀하는 현재 이 게시판의 메일링 기능을 사용하고 있습니다.</strong><br/><strong>메일링 해지</strong> 버튼을 누르면 메일링 기능을 중단할 수 있습니다.<br/><strong>[module_address]</strong>으로 메일을 보내면 게시판에 접속하지 않고 새 글을 등록할 수 있으며 답변 메일을 보내면 원본 글에 댓글로 등록이 됩니다.<br/>메일링에 사용하는 발송 메일의 주소는 <strong>[mail_address]</strong> 이어야 합니다.';
+    $lang->about_mailing_count = '이 게시판의 메일링 신청자 수는 현재 <strong>%d</strong> 명입니다.';
 
     $lang->cmd_create = '만들기';
     $lang->board_id = '주소';
@@ -34,4 +34,8 @@
     $lang->about_mailing_create_mid = '접속 URL을 정하실 수 있습니다. 3~10자 사이로 영문으로 시작하고 영문,숫자,_(언더바) 사용이 가능합니다';
     $lang->mailing_create_title = '게시판 이름';
     $lang->about_mailing_create_title = '표시될 게시판의 이름을 정할 수 있습니다. 가능하면 짧고 이해가 쉬운 이름을 정해주세요. (1~10자 사용 가능)';
+	
+	$lang->mailing_optin = '<strong>%s</strong> 메일링 신청';
+	$lang->mailing_optout = '<strong>%s</strong> 메일링 해지';
+	$lang->mailing_close = '메일링 도움말 닫기';
 ?>
