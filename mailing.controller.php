@@ -112,7 +112,9 @@
 
             $fromAddress = mailparse_rfc822_parse_addresses($mailMessage->from);
             $fromAddress = array_shift($fromAddress);
+            if($fromAddress["display"]) $nick_name = imap_utf8($fromAddress["display"]);
             $fromAddress = $fromAddress["address"];
+            if(!$nick_name) $nick_name = $fromAddress;
 
             $toAddress = mailparse_rfc822_parse_addresses($mailMessage->to);
 			if($mailMessage->cc) {
@@ -185,6 +187,13 @@
 				$oMemberController = &getController('member');
 				$oMemberController->doLogin($member_info->user_id);
 			}
+            else
+            {
+                $member_info->user_id = null;
+                $member_info->user_name = $nick_name;
+                $member_info->nick_name = $nick_name;
+                $member_info->email_address = $fromAddress;
+            }
 
             $reference_srl = null;
             if($mailMessage->inreplyto)
