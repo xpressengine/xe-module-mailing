@@ -197,6 +197,31 @@
             $oModel =& getModel('mailing');
             $oModel->getTargetAddresses(332);
         }
+
+		function triggerDispMailingAdditionSetup(&$obj) {
+            $current_module_srl = Context::get('module_srl');
+            $current_module_srls = Context::get('module_srls');
+            if(!$current_module_srl && !$current_module_srls) {
+                // 선택된 모듈의 정보를 가져옴
+                $current_module_info = Context::get('current_module_info');
+                $current_module_srl = $current_module_info->module_srl;
+                if(!$current_module_srl) return new Object();
+            }
+
+            $oModuleModel = &getModel('module');
+            if($current_module_srl)
+            {
+                $mailing_config = $oModuleModel->getModulePartConfig('mailing', $current_module_srl);
+            }
+			if(!isset($mailing_config->write_permission)) $mailing_config->write_permission = "only_registered";
+			Context::set('mailing_config', $mailing_config);
+
+            $otemplate = &templatehandler::getinstance();
+            $tpl = $otemplate->compile($this->module_path.'tpl', 'mailing_module_config');
+            $obj .= $tpl;
+
+			return new Object();
+		}
     }
 
 ?>

@@ -114,16 +114,6 @@
             $fromAddress = array_shift($fromAddress);
             $fromAddress = $fromAddress["address"];
 
-            $memberModel =& getModel('member');
-            $member_srl = $memberModel->getMemberSrlByEmailAddress($fromAddress);
-            if(!$member_srl) 
-            {
-                $mailMessage->close();
-                return;
-            }
-            $member_info = $memberModel->getMemberInfoByMemberSrl($member_srl);
-
-
             $toAddress = mailparse_rfc822_parse_addresses($mailMessage->to);
 			if($mailMessage->cc) {
 				$ccAddress = mailparse_rfc822_parse_addresses($mailMessage->cc);
@@ -167,14 +157,34 @@
                 $mailMessage->close();
                 return;
             }
+
+			$mailing_config = $oModuleModel->getModulePartConfig('mailing', $targetModule->module_srl);
+			if(!isset($mailing_config->write_permission)) $mailing_config->write_permission = "only_registered";
+
+			if($mailing_config->write_permission == "not_use")
+			{
+				$mailMessage->close();
+				return;
+			}
+
+            $memberModel =& getModel('member');
+            $member_srl = $memberModel->getMemberSrlByEmailAddress($fromAddress);
+			if($member_srl)
+			{
+				$member_info = $memberModel->getMemberInfoByMemberSrl($member_srl);
+			}
+
             $oModel =& getModel('mailing');
-            if(!$oModel->isMember($targetModule->module_srl, $fromAddress, $member_info->member_srl))
+            if($mailing_config->write_permission == "only_registered" && (!$member_info || !$oModel->isMember($targetModule->module_srl, $fromAddress, $member_info->member_srl)))
             {
                 $mailMessage->close();
                 return;
             }
-            $oMemberController = &getController('member');
-            $oMemberController->doLogin($member_info->user_id);
+			
+			if($member_info) {
+				$oMemberController = &getController('member');
+				$oMemberController->doLogin($member_info->user_id);
+			}
 
             $reference_srl = null;
             if($mailMessage->inreplyto)
@@ -511,6 +521,23 @@
             $this->setRedirectUrl(getFullUrl('','mid',$args->mid));
 
         }
-
+		
+		function procMailingInsertModuleConfig()
+		{
+            $module_srl = Context::get('target_module_srl');
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+	
+			$mailing_config->write_permission = Context::get('write_permission');
+			if(!$mailing_config->write_permission) $mailing_config->write_permission = "only_registered";
+			
+            $oModuleController = &getController('module');
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $output = $oModuleController->insertModulePartConfig('mailing',$srl,$mailing_config);
+            }
+            $this->setMessage('success_updated');
+		}
     }
 ?>

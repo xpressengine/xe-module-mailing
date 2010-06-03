@@ -25,5 +25,6 @@
         <action name="procMailingAdminInsert" type="controller" standalone="true" />
         <action name="procMailingAdminConfig" type="controller" standalone="true" />
         <action name="procMailingAdminDelete" type="controller" standalone="true" />
+		<action name="procMailingInsertModuleConfig" type="controller" standalone="true" />
     </actions>
 </module>

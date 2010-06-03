@@ -38,4 +38,9 @@
 	$lang->mailing_optin = '<strong>%s</strong> 메일링 신청';
 	$lang->mailing_optout = '<strong>%s</strong> 메일링 해지';
 	$lang->mailing_close = '메일링 도움말 닫기';
+
+	$lang->write_permission = '메일로 글쓰기 권한';
+	$lang->not_use = '사용하지 않음';
+	$lang->only_registered = '가입한 사용자만';
+	$lang->anyone = '누구나';
 ?>

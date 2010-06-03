@@ -13,6 +13,7 @@
             if(!$oModuleModel->getTrigger('document.insertDocument', 'mailing', 'controller', 'triggerInsertDocument', 'after')) return true;
             if(!$oModuleModel->getTrigger('comment.insertComment', 'mailing', 'controller', 'triggerInsertComment', 'after')) return true;
             if(!$oModuleModel->getTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after')) return true;
+			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before')) return true;
             return false;
         }
 
@@ -28,6 +29,9 @@
             if(!$oModuleModel->getTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after')) {
                 $oModuleController->insertTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after');
             }
+			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before')) {
+				$oModuleController->insertTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before');
+			}
             return new Object(0, 'success_updated');
         }
 
