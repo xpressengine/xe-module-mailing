@@ -38,4 +38,7 @@
 	$lang->mailing_optin = '<strong>%s</strong> 訂閱郵件';
 	$lang->mailing_optout = '<strong>%s</strong> 取消訂閱';
 	$lang->mailing_close = '關閉';
+
+	$lang->msg_none_documents = '등록된 글이 없습니다';
+	$lang->mailing_list = '메일링 목록';
 ?>

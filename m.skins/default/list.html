@@ -1,0 +1,41 @@
+<!--%import("css/mmailing.css")-->
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+
+<div class="bd">
+	<h2 class="h2">
+		<a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></a>
+		<a href="{getUrl('page','','act','dispMailingCategory','')}" class="bn">{$lang->mailing_list}</a>
+	</h2>
+	<!--@if($module_info->comment)-->
+    <p class="p">{nl2br($module_info->comment)}</p>
+	<!--@end-->
+
+	<div class="ln">
+		<ul>
+			<!--@foreach($tabs as $key => $val)-->
+			<li<!--@if($target==$key)--> class="active"<!--@end-->><a href="{getUrl('target',$key,'page',1)}">{$val}</a></li>
+			<!--@end-->
+		</ul>
+		<button type="button" class="next" title="{$lang->more}"></button>
+	</div>
+
+	<!--@if(count($document_list))-->
+	<ul class="lt"> 
+		<!--@foreach($document_list as $key => $document)-->
+		<li> 
+			<a href="{$document->getPermanentUrl()}"> 
+				<span class="title">위키 &rsaquo; <strong>{htmlspecialchars($document->getTitleText())}</strong> <!--@if($document->getCommentCount())--><span>[{$document->getCommentCount()}]</span><!--@end--></span> 
+				<span class="auth"><em>{htmlspecialchars($document->get('nick_name'))}</em> <span>{$document->getRegdate('Y.m.d')}</span></span> 
+			</a> 
+			<p>{$document->getSummary(100)}</p>
+			<!--@if($comment_list[$document->document_srl])-->
+				{@$_c = $comment_list[$document->document_srl]}
+			<p>└  {htmlspecialchars($_c->get('nick_name'))} - {htmlspecialchars($_c->getSummary(100))}</p>
+			<!--@end-->
+		</li> 
+		<!--@end-->
+	</ul>
+	<!--@else-->
+	<p>{$lang->msg_none_documents}</p>
+	<!--@end-->
+</div>

@@ -194,8 +194,6 @@
 
             Context::set('document_list', $document_list);
             Context::set('comment_list', $comment_list);
-            $oModel =& getModel('mailing');
-            $oModel->getTargetAddresses(332);
         }
 
 		function triggerDispMailingAdditionSetup(&$obj) {

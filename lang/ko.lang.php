@@ -43,4 +43,7 @@
 	$lang->not_use = '사용하지 않음';
 	$lang->only_registered = '가입한 사용자만';
 	$lang->anyone = '누구나';
+
+	$lang->msg_none_documents = '등록된 글이 없습니다';
+	$lang->mailing_list = '메일링 목록';
 ?>

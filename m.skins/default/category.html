@@ -1,0 +1,32 @@
+<!--%import("css/mmailing.css")-->
+<div class="bd">
+	<h2 class="h2">
+		<a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></a>
+		<a href="{getUrl('page','','act','dispMailingIndex','')}" class="bn">{$lang->mailing_list}</a>
+	</h2>
+	<!--@if($module_info->comment)-->
+    <p class="p">{nl2br($module_info->comment)}</p>
+	<!--@end-->
+	<ul class="gn">
+		<!--@foreach($mids[0]->modules as $key => $val)-->
+		<li><a href="{getUrl('','vid',$vid,'mid',$val->mid)}">&raquo; {htmlspecialchars($val->browser_title)}</a></li>
+		<!--@end-->
+		<!--@foreach($mids as $key => $val)-->
+		<!--@if($key>0)-->
+		<li>
+			<a href="{getSiteUrl($val->domain,'')}"><strong>&raquo; {htmlspecialchars($val->title)}</strong></a>
+
+			<!--@if(count($val->modules))-->
+			<ul>
+				<!--@foreach($val->modules as $k => $v)-->
+				<li>
+				<a href="{getSiteUrl($val->domain, '', 'mid', $v->mid)}">&raquo; {htmlspecialchars($v->browser_title)}</a>
+				</li>
+				<!--@end-->
+			</ul>
+			<!--@end-->
+		</li>
+		<!--@end-->
+		<!--@end-->
+	</ul>
+</div>

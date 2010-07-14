@@ -10,6 +10,7 @@
     </permissions>
     <actions>
         <action name="dispMailingIndex" type="view" index="true" />
+        <action name="dispMailingCategory" type="mobile" />
 
         <action name="procMailingToggleList" type="controller" standalone="true" />
 
