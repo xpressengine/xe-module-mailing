@@ -91,7 +91,7 @@
         {
             $upload_target_srl = $document_srl;
             $file_info = array();
-            $file_info['name'] = $this->get('content-name');
+            $file_info['name'] = imap_utf8($this->get('content-name'));
             if(!$file_info['name']) return;
             $file_info['tmp_name'] = $this->writeToFile();
 
@@ -112,7 +112,6 @@
                 $attachments[$file_info['name']] = $uploaded_filename;
                 Context::set('attachments', $attachments);
             }
-
             unlink(FileHandler::getRealPath($file_info['tmp_name']));
 
             return true;
@@ -173,7 +172,10 @@
         function getBody()
         {
             foreach($this->children as $part) {
-                if ($part->get('content-type') == "text/html") {
+				if ($part instanceof multiPart) {
+					return $part->getBody();
+				}
+                else if ($part->get('content-type') == "text/html") {
                     return $part->getBody();
                 }
             }
@@ -181,6 +183,11 @@
 
         function writeAttachments($document_srl, $module_srl, $member_srl)
         {
+            foreach($this->children as $part) {
+				if ($part instanceof multiPart) {
+					$res = $part->writeAttachments($document_srl, $module_srl, $member_srl);
+				}
+			}
         }
     }
 
