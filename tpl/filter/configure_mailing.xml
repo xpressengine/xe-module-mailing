@@ -1,0 +1,1 @@
+<filter name="configure_mailing" module="mailing" act="procMailingConfigureMailing" confirm_msg_code="confirm_submit" />

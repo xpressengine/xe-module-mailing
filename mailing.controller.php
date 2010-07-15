@@ -306,7 +306,7 @@
 
         function triggerInsertComment(&$obj)
         {
-            if(Context::get('act') == 'procMailingInsertMail') return;
+            if(Context::get('act') == 'procMailingInsertMail') return new Object();
             $moduleModel =& getModel('module');
             $module_srl = $obj->module_srl;
             $targetModule = $moduleModel->getModuleInfoByModuleSrl($module_srl);
@@ -324,7 +324,7 @@
             $mid = $targetModule->mid;
             $oModel =& getModel('mailing');
             $mailingAddressesData = $oModel->getTargetAddresses($targetModule->module_srl);
-            if(!$mailingAddressesData || count($mailingAddressesData) < 1) return;
+            if(!$mailingAddressesData || count($mailingAddressesData) < 1) return new Object();
             $content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $obj->content);
             $content = sprintf("<a href=\"%s#comment_%d\">%s#comment_%d</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), $obj->comment_srl, getFullUrl('','document_srl',$obj->document_srl), $obj->comment_srl, $content);
             $oModuleModel =& getModel('module');
@@ -363,8 +363,22 @@
             $oMail->setReplyTo( $mailingAddress );
             $oMail->setReceiptor($mailingAddress, $mailingAddress);
             $res = array();
+			if($obj->parent_srl)
+			{
+				$oCommentModel =& getModel('comment');
+				$oComment = $oCommentModel->getComment($obj->parent_srl);
+			}
             foreach($mailingAddressesData as $mailAddr)
             {
+				if($mailAddr->include_comment == "N") continue;
+				elseif($mailAddr->include_comment == "M")
+				{
+					if($mailAddr->member_srl != $oComment->member_srl && $mailAddr->member_srl != $oDocument->get('member_srl'))
+					{
+						continue;	
+					}
+				}
+
                 if($mailAddr->member_email_address)
                 {
                     $res[] = $mailAddr->member_email_address;
@@ -374,8 +388,10 @@
                     $res[] = $mailAddr->email_address;
                 }
             }
+			if(count($res) == 0) return new Object();
             $oMail->setBCC(implode(",", $res));
             $oMail->send();
+			return new Object();
         }
 
         function replaceResourceRealPath($matches) {
@@ -384,7 +400,7 @@
 
         function triggerInsertDocument(&$obj)
         {
-            if(Context::get('act') == 'procMailingInsertMail') return;
+            if(Context::get('act') == 'procMailingInsertMail') return new Object();
             $module_srl = $obj->module_srl;
             $moduleModel =& getModel('module');
             $targetModule = $moduleModel->getModuleInfoByModuleSrl($module_srl);
@@ -403,7 +419,7 @@
 
             $oModel =& getModel('mailing');
             $mailingAddressesData = $oModel->getTargetAddresses($targetModule->module_srl);
-            if(!$mailingAddressesData || count($mailingAddressesData) < 1) return;
+            if(!$mailingAddressesData || count($mailingAddressesData) < 1) return new Object();
 
             $oModuleModel =& getModel('module');
             $mailingConfig = $oModuleModel->getModuleConfig('mailing');
@@ -485,7 +501,16 @@
                 $args->member_srl = $logged_info->member_srl;
                 $args->module_srl = $obj->module_info->module_srl;
                 $output = executeQuery('mailing.getMemberJoined', $args);
-                Context::set('mailing_joined', $output->data->module_srl==$obj->module_info->module_srl?true:false);
+				if($output->data->module_srl == $obj->module_info->module_srl)
+				{
+					Context::set('mailing_joined', true);
+					Context::set('mailing_include_comment', $output->data->include_comment);
+					Context::addJsFilter($this->module_path.'tpl/filter', 'configure_mailing.xml');
+				}
+				else
+				{
+					Context::set('mailing_joined', false);
+				}
             }
 
             unset($args);
@@ -546,6 +571,17 @@
                 if(!$srl) continue;
                 $output = $oModuleController->insertModulePartConfig('mailing',$srl,$mailing_config);
             }
+            $this->setMessage('success_updated');
+		}
+
+		function procMailingConfigureMailing()
+		{
+			$vars = Context::getRequestVars();
+			$logged_info = Context::get('logged_info');
+			if(!$logged_info) return new Object(-1, "msg_invliad_request");
+			$vars->member_srl = $logged_info->member_srl;
+			$output = executeQuery("mailing.updateConfig", $vars);
+			if(!$output->toBool()) return $output;
             $this->setMessage('success_updated');
 		}
     }

@@ -18,6 +18,18 @@
 		<div class="desc">
 			<p>{str_replace(array('[mail_address]','[module_address]'),array($logged_info->email_address, $mailing_address),$lang->about_mailing_info_joined)}</p>
 			<p>{sprintf($lang->about_mailing_count, $mailing_count)}</p>
+			<div>
+				<form action="./" onsubmit="return procFilter(this, configure_mailing);">
+				<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+				{$lang->config_comment}
+				<select name="include_comment">
+					<!--@foreach($lang->mailing_option as $key=>$val)-->
+					<option value="{$key}"<!--@if($key==$mailing_include_comment)--> selected="selected"<!--@end-->>{$val}</option>
+					<!--@end-->
+				</select>
+				<button type="submit" class="submit">{$lang->cmd_submit}</button>
+				</form>
+			</div>
 			<button type="button" class="submit" onclick="doBoardToggleMailing('{$module_info->module_srl}',this);">{sprintf($lang->mailing_optout, $module_info->browser_title)}</button>
 			<button type="button" class="close">{$lang->mailing_close}</button>
 		</div>

@@ -14,6 +14,10 @@
             if(!$oModuleModel->getTrigger('comment.insertComment', 'mailing', 'controller', 'triggerInsertComment', 'after')) return true;
             if(!$oModuleModel->getTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after')) return true;
 			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before')) return true;
+
+            $oDB = &DB::getInstance();
+			if(!$oDB->isColumnExists("mailing_members", "include_comment")) return true;
+
             return false;
         }
 
@@ -32,6 +36,12 @@
 			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before')) {
 				$oModuleController->insertTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before');
 			}
+
+            $oDB = &DB::getInstance();
+			if(!$oDB->isColumnExists("mailing_members", "include_comment")) {
+				$oDB->addColumn("mailing_members", "include_comment", "char", 1, "A");
+			}
+
             return new Object(0, 'success_updated');
         }
 

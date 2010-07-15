@@ -46,4 +46,6 @@
 
 	$lang->msg_none_documents = '등록된 글이 없습니다';
 	$lang->mailing_list = '메일링 목록';
+	$lang->mailing_option = array('A' => '모두 받기', 'M' => '내 (댓)글의 댓글만 받기', 'N' => '받지 않기');
+	$lang->config_comment = '댓글 설정';
 ?>
