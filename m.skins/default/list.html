@@ -24,7 +24,7 @@
 		<!--@foreach($document_list as $key => $document)-->
 		<li> 
 			<a href="{$document->getPermanentUrl()}"> 
-				<span class="title">위키 &rsaquo; <strong>{htmlspecialchars($document->getTitleText())}</strong> <!--@if($document->getCommentCount())--><span>[{$document->getCommentCount()}]</span><!--@end--></span> 
+				<span class="title">{$mid_titles[$document->get('module_srl')]} &rsaquo; <strong>{htmlspecialchars($document->getTitleText())}</strong> <!--@if($document->getCommentCount())--><span>[{$document->getCommentCount()}]</span><!--@end--></span> 
 				<span class="auth"><em>{htmlspecialchars($document->get('nick_name'))}</em> <span>{$document->getRegdate('Y.m.d')}</span></span> 
 			</a> 
 			<p>{$document->getSummary(100)}</p>

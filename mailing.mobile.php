@@ -33,6 +33,8 @@
 
 			$selected_modules = explode(',',$this->module_info->target_module);
 
+			$mid_titles = array();
+
             $output = executeQueryArray('mailing.getModules');
             if(count($output->data)) {
                 foreach($output->data as $key => $val) {
@@ -46,6 +48,9 @@
                     $mids[$val->site_srl]->modules[$val->module_srl] = $val;
 
                     $module_srls[$val->module_srl] = $val->site_srl;
+
+					unset($sobj);
+					$mid_titles[$val->module_srl] = $val->browser_title;
 
 					if(in_array($val->module_srl, $selected_modules)) $this->tabs[$val->module_srl] = $val->browser_title;
                 }
@@ -82,6 +87,7 @@
                 }
             }
             Context::set('mids', $mids);
+            Context::set('mid_titles', $mid_titles);
 
 			Context::set('tabs', $this->tabs);
 		}
