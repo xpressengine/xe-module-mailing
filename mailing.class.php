@@ -12,7 +12,7 @@
             $oModuleModel =& getModel('module');
             if(!$oModuleModel->getTrigger('document.insertDocument', 'mailing', 'controller', 'triggerInsertDocument', 'after')) return true;
             if(!$oModuleModel->getTrigger('comment.insertComment', 'mailing', 'controller', 'triggerInsertComment', 'after')) return true;
-            if(!$oModuleModel->getTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after')) return true;
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after')) return true;
 			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before')) return true;
 
             $oDB = &DB::getInstance();
@@ -30,8 +30,9 @@
             if(!$oModuleModel->getTrigger('comment.insertComment', 'mailing', 'controller', 'triggerInsertComment', 'after')) {
                 $oModuleController->insertTrigger('comment.insertComment', 'mailing', 'controller', 'triggerInsertComment', 'after');
             }
-            if(!$oModuleModel->getTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after')) {
-                $oModuleController->insertTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after');
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after')) {
+                $oModuleController->deleteTrigger('ModuleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after');
+                $oModuleController->insertTrigger('moduleHandler.proc', 'mailing', 'controller', 'triggerDisplayMailingInfo', 'after');
             }
 			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before')) {
 				$oModuleController->insertTrigger('module.dispAdditionSetup', 'mailing', 'view', 'triggerDispMailingAdditionSetup', 'before');
