@@ -198,23 +198,23 @@
             {
                 if($part["content-type"] == "multipart/alternative")
                 {
-                    $obj =& new multiPartAlternative($part, $path);
+                    $obj = new multiPartAlternative($part, $path);
                     return $obj;
                 }
                 else
                 {
-                    $obj =& new multiPart($part, $path);
+                    $obj = new multiPart($part, $path);
                     return $obj;
                 }
             }
             else if ($part["content-type"] == "text/html")
             {
-                $obj =& new htmlPart($part, $path);
+                $obj = new htmlPart($part, $path);
                 return $obj;
             }
             else
             {
-                $obj =& new mailPart($part, $path);
+                $obj = new mailPart($part, $path);
                 return $obj;
             }
         }
