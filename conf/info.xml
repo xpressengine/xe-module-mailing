@@ -6,13 +6,13 @@
     <description xml:lang="ko">메일링 모듈.</description>
     <description xml:lang="en">This module maintains mailing list.</description>
     <description xml:lang="zh-TW">可管理郵件列表。</description>
-    <version>0.1</version>
-    <date>2009-12-18</date>
+    <version>0.1.1</version>
+    <date>2010-07-15</date>
     <category>service</category>
 
-    <author email_address="haneul@xpressengine.com" link="http://seungyeop.kr">
-        <name xml:lang="ko">haneul</name>
-        <name xml:lang="en">haneul</name>
-        <name xml:lang="zh-TW">haneul</name>
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com">
+        <name xml:lang="ko">XE</name>
+        <name xml:lang="en">XE</name>
+        <name xml:lang="zh-TW">XE</name>
     </author>
 </module>
