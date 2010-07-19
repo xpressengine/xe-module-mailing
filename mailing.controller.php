@@ -306,6 +306,7 @@
 
         function triggerInsertComment(&$obj)
         {
+            if($obj->is_secret == "Y") return new Object();
             if(Context::get('act') == 'procMailingInsertMail') return new Object();
             $moduleModel =& getModel('module');
             $module_srl = $obj->module_srl;
@@ -400,6 +401,7 @@
 
         function triggerInsertDocument(&$obj)
         {
+            if($obj->is_secret == "Y") return new Object();
             if(Context::get('act') == 'procMailingInsertMail') return new Object();
             $module_srl = $obj->module_srl;
             $moduleModel =& getModel('module');
