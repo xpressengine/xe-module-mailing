@@ -300,6 +300,7 @@
                     }
                 }
                 $oMail->setBCC(implode(",", $res));
+                $oMail->setAdditionalParams("-f ".$mailingAddress);
                 $oMail->send();
             }
         }
@@ -391,6 +392,7 @@
             }
 			if(count($res) == 0) return new Object();
             $oMail->setBCC(implode(",", $res));
+            $oMail->setAdditionalParams("-f ".$mailingAddress);
             $oMail->send();
 			return new Object();
         }
@@ -472,6 +474,7 @@
             }
 
             $oMail->setBCC(implode(",", $res));
+            $oMail->setAdditionalParams("-f ".$mailingAddress);
             $oMail->send();
         }
 
