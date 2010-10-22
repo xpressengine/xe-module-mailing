@@ -110,7 +110,7 @@
         <ul>
         <!--@foreach($val->list as $k => $v)-->
             <li>
-                <a href="{$v->getPermanentUrl()}" class="documentTitle">{$v->getTitleText(70)}</a>
+                <a href="{$v->getPermanentUrl()}" class="documentTitle">{htmlspecialchars($v->getTitleText(70))}</a>
                 {$v->printExtraImages(60*60*$module_info->duration_new)}
 
                 <!--@if($comment_list[$v->document_srl])-->
