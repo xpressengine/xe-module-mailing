@@ -254,10 +254,21 @@
 				{
 					$obj->title = $mailMessage->subject;
 				}
+
+
+
                 $obj->content = $this->replaceCid($mailMessage->getBody());
                 $obj->module_srl = $targetModule->module_srl;
                 $oDocumentController = &getController('document');
                 $output = $oDocumentController->insertDocument($obj, true);
+
+                if($output->toBool() && $targetModule->module == 'issuetracker') {
+                    $issueObj->module_srl = $targetModule->module_srl;
+                    $issueObj->title = $obj->title;
+                    $issueObj->document_srl = $obj->document_srl;
+                    $output = executeQuery('issuetracker.insertIssue', $issueObj);
+                }
+
                 $content = sprintf("<a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $obj->content);
                 $mailMessage->close(); 
             }
@@ -481,7 +492,7 @@
         function triggerDisplayMailingInfo(&$obj) {
             $oModuleModel = &getModel('module');
 
-            if(!in_array($obj->module, array('board','kin','wiki')) || Context::getResponseMethod()!="HTML" || !$obj->grant->access || strpos($obj->act, 'Admin')>0) return new Object();
+            if(!in_array($obj->module, array('board','kin','wiki','issuetracker')) || Context::getResponseMethod()!="HTML" || !$obj->grant->access || strpos($obj->act, 'Admin')>0) return new Object();
             $config = $oModuleModel->getModuleConfig('mailing');
             if($config->display_board_header!='Y') return new Object();
                     
