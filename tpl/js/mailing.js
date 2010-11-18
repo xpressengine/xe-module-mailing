@@ -31,6 +31,7 @@ function doConfigChange(form)
     var params={};
     params["maildomain"] = form.maildomain.value;
     params["display_board_header"] = form.display_board_header.checked?'Y':'';
+    params["except_mailbody"] = form.except_mailbody.value;
     exec_xml('mailing', 'procMailingAdminConfig', params, filterAlertMessage ,['error', 'message'], params, form);
     return false;
 }

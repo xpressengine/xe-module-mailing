@@ -1,5 +1,4 @@
 <!--#include("./_header.html")-->
-
 <form action="./" method="post" onsubmit="return doConfigChange(this);">
     <table cellspacing="0" class="rowTable">
     <tr>
@@ -16,6 +15,14 @@
             <p>{$lang->about_mailing_display_board_header}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row"><div>exception regex</div></th>
+        <td>
+            <input name="except_mailbody" type="text" class="inputTypeText w400" value="{$mailingConfig->except_mailbody}"/>
+            <p>regex : "/[a-z]/" or string "abc"</p>
+        </td>
+    </tr>
+
     <tr>
         <th colspan="2" class="button">
             <span class="button black"><input type="submit" value="{$lang->cmd_save}" /></span>

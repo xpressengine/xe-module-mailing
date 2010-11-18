@@ -62,7 +62,6 @@
                 }
             }
 
-
             if(count($mids)) {
                 $args->site_srls = array_keys($mids);
                 $output = executeQueryArray('mailing.getHomepageTitles', $args);
@@ -78,6 +77,11 @@
                         $mids[$val->site_srl]->domain = $val->domain;
                         $mids[$val->site_srl]->title = $val->title;
                     }
+                }
+            }
+            if(count($mids)) {
+                foreach($mids as $key => $val) {
+                    if(!$val->title) unset($mids[$key]);
                 }
             }
             Context::set('mids', $mids);

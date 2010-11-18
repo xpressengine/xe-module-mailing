@@ -54,8 +54,10 @@
         {
             $maildomain = Context::get('maildomain');
             $display_board_header = Context::get('display_board_header');
+            $except_mailbody = Context::get('except_mailbody');
             $config->maildomain = $maildomain;
             $config->display_board_header = $display_board_header;
+            $config->except_mailbody = $except_mailbody;
             $oModuleController =& getController('module');
             $oModuleController->insertModuleConfig('mailing', $config);
             $this->setMessage('success_updated');
