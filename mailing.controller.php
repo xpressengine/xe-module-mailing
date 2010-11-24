@@ -115,7 +115,6 @@ class mailingController extends mailing {
 		if($except_mailbody)
 		{
 			$_content = $this->replaceCid($mailMessage->getBody());
-debugPrint($_content);
 			if($except_mailbody{0} == '/' && substr($except_mailbody,-1) =='/')
 			{
 				if(preg_match_all($except_mailbody,$_content)) return;
@@ -125,7 +124,6 @@ debugPrint($_content);
 				$pos = strpos($_content, $except_mailbody);
 				if($pos !== false)
 				{
-debugPrint('removed:' . $pos);
 					 return;
 				} 
 			}	
@@ -415,10 +413,12 @@ debugPrint('removed:' . $pos);
 
 			if($mailAddr->member_email_address)
 			{
+                if(substr($mailAddr->member_email_address,-1)=='_') continue;
 				$res[] = $mailAddr->member_email_address;
 			}
 			else
 			{
+                if(substr($mailAddr->email_address,-1)=='_') continue;
 				$res[] = $mailAddr->email_address;
 			}
 		}
@@ -497,10 +497,12 @@ debugPrint('removed:' . $pos);
 		{
 			if($mailAddr->member_email_address)
 			{
+                if(substr($mailAddr->member_email_address,-1)=='_') continue;
 				$res[] = $mailAddr->member_email_address;
 			}
 			else
 			{
+                if(substr($mailAddr->email_address,-1)=='_') continue;
 				$res[] = $mailAddr->email_address;
 			}
 		}
